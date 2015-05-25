@@ -2,9 +2,10 @@
 
 //! CHECK LIB.DEVDEPENDENCIES
 var crawler  = require('./libcrawler')
+var dl       = require('./libdownloader.js')
 var readline = require('readline')
 
-var argument = /handlebars/i;
+var argument = /react/i;
 
 /*
  * This is a helper function to prompt a user.
@@ -49,7 +50,8 @@ crawler.find(argument, function(packages) {
     promptUser(/^[0-9]*$/, function(line) {
       var choice = parseInt(line);
       if (choice < packages.length) {
-        console.log(crawler.extract(packages[choice]));
+        var targetPackage = packages[choice];
+        dl.download(targetPackage);
       } else {
         console.log("Not an options!");
       }
@@ -61,4 +63,3 @@ crawler.find(argument, function(packages) {
     console.log(crawler.extract(packages[0]));
   }
 });
-var cdn = "http://cdnjs.cloudflare.com/ajax/libs/{{name}}/{{version}}/{{filename}}"
