@@ -1,0 +1,33 @@
+{
+  "name": "pulldown",
+  "version": "0.0.0",
+  "description": "An app to pull down libraries WITH dependencies WITH multiple choise if multiple found",
+  "main": "app.js",
+  "dependencies": {
+    "colog": "^1.0.4",
+    "q": "^1.4.1",
+    "request": "^2.55.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yannvanhalewyn/pulldown.git"
+  },
+  "keywords": [
+    "pulldown",
+    "cdnjs",
+    "libraries"
+  ],
+  "author": "yannvanhalewyn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yannvanhalewyn/pulldown/issues"
+  },
+  "homepage": "https://github.com/yannvanhalewyn/pulldown"
+}

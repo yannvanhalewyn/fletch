@@ -1,11 +1,16 @@
 #!/usr/bin/env node
 
-//! CHECK LIB.DEVDEPENDENCIES
+// Lib
 var crawler  = require('./lib/libcrawler');
-
 var dl       = require('./lib/libdownloader');
+
+// IO
 var readline = require('readline');
-var colog = require('colog');
+var colog    = require('colog');
+
+// Async
+var Q        = require('q');
+
 
 var argument = /react/i;
 
