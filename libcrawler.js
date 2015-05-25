@@ -3,7 +3,11 @@
 
   var Crawler = {
 
-    cache: 'cache/pckg.json',
+    /*
+     * The storage file containing CDNJS's package.json file
+     */
+    cache: 'tmp.json',
+
     /*
      * This method finds all package entries in the json data
      * And returns them as array.
@@ -24,7 +28,27 @@
         }
         callback(results);
       });
+    },
+
+    /*
+     * This function takes in a lib object and extracts all necessary files
+     * from it
+     */
+    extract: function(lib, version) {
+      version = version || lib.version;
+      files = [];
+      lib.assets.forEach( function(asset) {
+        if (asset.version == version) {
+          files = asset.files.map( function(file) { return file.name} );
+        }
+      });
+      return files;
     }
+
+    /*
+     * This function finds all dependencies and hands back shit
+     */
+
   }
 
   module.exports = Crawler;
