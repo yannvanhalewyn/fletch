@@ -3,7 +3,7 @@
 // Lib
 var colog   = require('colog');
 var Q       = require('q');
-var rl      = require('readline-sync');
+global.rl      = require('readline-sync');
 var crawler = require('./lib/libcrawler');
 var dl      = require('./lib/libdownloader');
 
