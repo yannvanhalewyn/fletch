@@ -1,37 +1,16 @@
-var fs = require('fs');
+#!/usr/bin/env node
 
-var argument = /^bootstrap/i;
-var cdn = "http://cdnjs.cloudflare.com/ajax/libs/{{name}}/{{version}}/{{filename}}"
+var crawler = require('./libcrawler')
 
-function parseLib(lib, files) {
-  var version = lib.version;
-  for (var i in files) {
-    var url = cdn.replace("{{name}}", lib.name);
-    url = url.replace("{{version}}", version);
-    url = url.replace("{{filename}}", files[i].name);
-    console.log(url);
-  }
-}
-fs.readFile('cache/pckg.json', function(err, data) {
-  var packages = JSON.parse(data).packages;
-  var found = [];
-  for (var i in packages) {
-    lib = packages[i];
-    if (lib.name.match(argument)) {
-      found = true;
-      console.log(lib);
-      var assets = [];
-      for (var i in lib.assets) {
-        if (lib.assets[i].version == lib.version) {
-          assets = lib.assets[i];
-          break;
-        }
-      }
-      parseLib(lib, assets.files);
-      break;
+var argument = /bootstrap/i;
+crawler.find(argument, function(packages) {
+  if (packages.length == 0) {
+    console.log("No matches found");
+  } else if (packages.length > 1) {
+    console.log("Found many packages! Which one do you want?");
+    for (var i in packages) {
+      console.log(i + " - " + packages[i].name + "\t⇒\t" + packages[i].description);
     }
   }
-  if (!found) {
-    console.log("Not found");
-  }
 });
+var cdn = "http://cdnjs.cloudflare.com/ajax/libs/{{name}}/{{version}}/{{filename}}"
