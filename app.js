@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
 //! CHECK LIB.DEVDEPENDENCIES
-var crawler  = require('./lib/libcrawler')
-var dl       = require('./lib/libdownloader')
-var readline = require('readline')
+var crawler  = require('./lib/libcrawler');
+var dl       = require('./lib/libdownloader');
+var readline = require('readline');
+var colog = require('colog');
 
 var argument = /react/i;
 
@@ -20,6 +21,7 @@ function promptUser(format, callback) {
     if (line == "exit") process.exit(0);
     if (line.match(format)) {
       rl.close();
+      console.log("");
       callback(line);
     } else {
       rl.prompt();
@@ -43,7 +45,7 @@ crawler.find(argument, function(packages) {
     // Log options
     console.log("Found many packages! Which one do you want?");
     for (var i in packages) {
-      console.log(i + " - " + packages[i].name + "\t⇒\t" + packages[i].description);
+      console.log(i + " - " + packages[i].name);
     }
 
     // Get user's choice
@@ -51,9 +53,23 @@ crawler.find(argument, function(packages) {
       var choice = parseInt(line);
       if (choice < packages.length) {
         var targetPackage = packages[choice];
-        dl.download(targetPackage);
+        if (targetPackage.dependencies) {
+          // Prompt user if he wants dependencies
+          var deps = Object.keys(targetPackage.dependencies);
+          colog.warning("This package has dependencies! ");
+          colog.info(deps);
+          console.log("Would you like to pull them down? (y/N)");
+          promptUser(/^[a-z]$/i, function(line) {
+            if (line.toLowerCase() == "y") {
+              for (var i in deps) {
+                console.log("DOWNLOAD" + deps[i]);
+              }
+            }
+          })
+        }
+        // dl.download(targetPackage);
       } else {
-        console.log("Not an options!");
+        console.log("Not an option!");
       }
     });
   }
