@@ -58,9 +58,9 @@ var libDeps = {
 //   return crawler.grabDependencies(libDeps);
 // })
 // .then(console.log, console.err);
-crawler.getRawLibrary().then( function(data) {
-  var deps = crawler.grabDependencies(libDeps);
-  deps = deps.map(function(dep) { return dep.name });
-  console.log("Got: " + deps);
-});
+// crawler.getRawLibrary().then( function(data) {
+//   var deps = crawler.grabDependencies(libDeps);
+//   deps = deps.map(function(dep) { return dep.name });
+//   console.log("Got: " + deps);
+// });
 

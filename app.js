@@ -1,84 +1,64 @@
 #!/usr/bin/env node
 
 // Lib
-var crawler  = require('./lib/libcrawler');
-var dl       = require('./lib/libdownloader');
-
-// IO
-var readline = require('readline');
-var colog    = require('colog');
-
-// Async
-var Q        = require('q');
+var colog   = require('colog');
+var Q       = require('q');
+var rl      = require('readline-sync');
+var crawler = require('./lib/libcrawler');
+var dl      = require('./lib/libdownloader');
 
 
-var argument = /react/i;
+var argument = /ember/i;
 
 /*
  * This is a helper function to prompt a user.
- * It recurses until the format matches, then passes
+ * It loops until the format matches, then passes
  * on the reply
  */
-global.promptUser = function(format, callback) {
-  var rl = readline.createInterface(process.stdin, process.stdout);
-  rl.prompt();
+global.promptOptions = function(options) {
+  for (var opt in options) {
+    console.log(opt + "\t" + options[opt]);
+  }
+  colog.info("Hit 'n' for nothing.");
+  do {
+    var ans = rl.prompt();
+  } while(!ans.match(/(^[0-9]+|n)/i));
+  return ans;
+}
 
-  rl.on('line', function(line) {
-    if (line == "exit") process.exit(0);
-    if (line.match(format)) {
-      rl.close();
-      console.log("");
-      callback(line);
-    } else {
-      rl.prompt();
-    }
-  });
+/*
+ * This function finishes the process by launching the dependency checker
+ * and the download.
+ */
+function processRequest(lib) {
+  var libraries = crawler.grabDependencies(lib).concat(lib);
+  console.log(libraries);
+  libraries.forEach( function(library) {
+    dl.download(library);
+  })
 }
 
 /*
  * The main function
  */
-crawler.find(argument, function(packages) {
+crawler.find(argument).then(function (results) {
+
   // No matches
-  if (packages.length == 0) {
+  if (results.length == 0) {
     console.log("No matches found");
   }
 
   // Multiple matches
-  else if (packages.length > 1) {
-
+  else if (results.length > 1){
     // Log options
     console.log("Found many packages! Which one do you want?");
-    for (var i in packages) {
-      console.log(i + " - " + packages[i].name);
+    ans = promptOptions(results.map(function(item) { return item.name }));
+    if (ans.match(/\w+/) && parseInt(ans) < results.length) {
+      processRequest(results[ans]);
+    } else {
+      console.log("kaka!");
     }
-
-    // Get user's choice
-    promptUser(/^[0-9]*$/, function(line) {
-      var choice = parseInt(line);
-      if (choice < packages.length) {
-        var targetPackage = packages[choice];
-        if (targetPackage.dependencies) {
-          // Prompt user if he wants dependencies
-          var deps = Object.keys(targetPackage.dependencies);
-          colog.warning("This package has dependencies! ");
-          colog.info(deps);
-          console.log("Would you like to pull them down? (y/N)");
-          promptUser(/^[a-z]$/i, function(line) {
-            if (line.toLowerCase() == "y") {
-              crawler.grabDependencies(targetPackage);
-            }
-          })
-        }
-        // dl.download(targetPackage);
-      } else {
-        console.log("Not an option!");
-      }
-    });
-  }
-
-  // Only the one match
-  else {
-    console.log(crawler.extract(packages[0]));
+  } else {
+    processRequest(results[0]);
   }
 });

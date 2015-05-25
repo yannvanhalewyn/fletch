@@ -2,4 +2,3 @@ tmp.json
 node_modules/
 tests/
 npm-debug.log
-tester.js
