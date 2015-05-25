@@ -8,7 +8,7 @@ var crawler = require('./lib/libcrawler');
 var dl      = require('./lib/libdownloader');
 
 
-var argument = /angular/i;
+var argument = /react/i;
 
 /*
  * This is a helper function to prompt a user.
@@ -32,7 +32,6 @@ global.promptOptions = function(options) {
  */
 function processRequest(lib) {
   var libraries = crawler.grabDependencies(lib).concat(lib);
-  console.log(libraries);
   libraries.forEach( function(library) {
     dl.download(library);
   })
@@ -55,8 +54,6 @@ crawler.find(argument).then(function (results) {
     ans = promptOptions(results.map(function(item) { return item.name }));
     if (ans.match(/\w+/) && parseInt(ans) < results.length) {
       processRequest(results[ans]);
-    } else {
-      console.log("kaka!");
     }
   } else {
     processRequest(results[0]);
