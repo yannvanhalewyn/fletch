@@ -8,7 +8,7 @@ var crawler = require('./lib/libcrawler');
 var dl      = require('./lib/libdownloader');
 
 
-var argument = /ember/i;
+var argument = /angular/i;
 
 /*
  * This is a helper function to prompt a user.
