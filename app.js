@@ -2,6 +2,7 @@
 
 //! CHECK LIB.DEVDEPENDENCIES
 var crawler  = require('./lib/libcrawler');
+
 var dl       = require('./lib/libdownloader');
 var readline = require('readline');
 var colog = require('colog');
@@ -13,7 +14,7 @@ var argument = /react/i;
  * It recurses until the format matches, then passes
  * on the reply
  */
-function promptUser(format, callback) {
+global.promptUser = function(format, callback) {
   var rl = readline.createInterface(process.stdin, process.stdout);
   rl.prompt();
 
@@ -28,7 +29,6 @@ function promptUser(format, callback) {
     }
   });
 }
-
 
 /*
  * The main function
@@ -61,9 +61,7 @@ crawler.find(argument, function(packages) {
           console.log("Would you like to pull them down? (y/N)");
           promptUser(/^[a-z]$/i, function(line) {
             if (line.toLowerCase() == "y") {
-              for (var i in deps) {
-                console.log("DOWNLOAD" + deps[i]);
-              }
+              crawler.grabDependencies(targetPackage);
             }
           })
         }
