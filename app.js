@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 //! CHECK LIB.DEVDEPENDENCIES
-var crawler  = require('./libcrawler')
-var dl       = require('./libdownloader.js')
+var crawler  = require('./lib/libcrawler')
+var dl       = require('./lib/libdownloader')
 var readline = require('readline')
 
 var argument = /react/i;
