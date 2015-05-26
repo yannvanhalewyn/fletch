@@ -1,5 +1,5 @@
 {
-  "name": "pulldown",
+  "name": "fletcher",
   "version": "0.0.0",
   "description": "An app to pull down libraries WITH dependencies WITH multiple choise if multiple found",
   "main": "app.js",
@@ -9,7 +9,9 @@
     "readline-sync": "^1.2.16",
     "request": "^2.55.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^2.3.0"
+  },
   "scripts": {
     "start": "node app.js"
   },
@@ -25,7 +27,7 @@
   "author": "yannvanhalewyn",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/yannvanhalewyn/pulldown/issues"
+    "url": "https://github.com/yannvanhalewyn/fletcher/issues"
   },
-  "homepage": "https://github.com/yannvanhalewyn/pulldown"
+  "homepage": "https://github.com/yannvanhalewyn/fletcher"
 }

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// http://api.cdnjs.com/libraries?search=jquery&fields=version,description,assets,dependencies
 
 // Lib
 var colog   = require('colog');
@@ -8,7 +9,7 @@ var crawler = require('./lib/libcrawler');
 var dl      = require('./lib/libdownloader');
 
 
-var argument = /react/i;
+var argument = /jquery/i;
 
 /*
  * This is a helper function to prompt a user.

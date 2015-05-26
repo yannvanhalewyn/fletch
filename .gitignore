@@ -1,4 +1,4 @@
-tmp.json
+cache/
 node_modules/
 tests/
 npm-debug.log
