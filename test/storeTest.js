@@ -56,10 +56,21 @@ describe ('Store', function() {
 
   });
 
-  describe ('grabDependencies', function() {
-    
-    it('returns ', function() {
-      
+  describe ('.getDependentPackages()', function() {
+
+    it.only('returns an array of dependent packages', function() {
+      var lib = { name: "react-coffee",
+                  dependencies: { jquery: "3.2.1", underscore: "2.1.1" } };
+      var promise = store.getDependentPackages(lib);
+      var stdin = require('mock-stdin').stdin();
+      // process.nextTick(function mockResponse() {
+      //   stdin.send('y');
+      // });
+      return promise.then( function(dependentpackages) {
+        // var expected = [ "jquery", "underscore" ];
+        // var found = dependentPackages.map(function(i) { return i.name});
+        // expect(found).to.equal(expect);
+      })
     });
   });
 
