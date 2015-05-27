@@ -26,7 +26,7 @@ describe('Prompt', function() {
 
     it('returns an option', function() {
       mockInput("2");
-      return prompt.options("Question?", ["option", "option"])
+      return prompt.options(["option", "option"])
         .then(function(res) {
           expect(res).to.eql(2);
         })
