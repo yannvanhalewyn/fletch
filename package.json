@@ -10,7 +10,9 @@
     "request": "^2.55.0"
   },
   "devDependencies": {
-    "chai": "^2.3.0"
+    "chai": "^2.3.0",
+    "mock-stdin": "^0.3.0",
+    "sinon": "^1.14.1"
   },
   "scripts": {
     "start": "node app.js"
