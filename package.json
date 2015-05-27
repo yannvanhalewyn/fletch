@@ -6,7 +6,6 @@
   "dependencies": {
     "colog": "^1.0.4",
     "q": "^1.4.1",
-    "readline-sync": "^1.2.16",
     "request": "^2.55.0"
   },
   "devDependencies": {

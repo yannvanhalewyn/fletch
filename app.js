@@ -9,7 +9,7 @@ var dl     = require('./lib/libdownloader');
 var prompt = require('./lib/prompt');
 
 
-var argument = "underscore";
+var argument = "reacti";
 
 /*
  * This is a helper function to prompt a user.
@@ -32,6 +32,7 @@ global.promptOptions = function(options) {
  * and the download.
  */
 function processRequest(lib) {
+  colog.info("Will install " + lib.name);
   store.getDependentPackages(lib)
   .then(function(dependentPackages) {
     dl.download(lib);
@@ -44,7 +45,7 @@ function processRequest(lib) {
 /*
  * The main function
  */
-store.findCollection(argument).then(function (results) {
+store.findMatching(argument).then(function (results) {
 
   // No matches
   if (results.length == 0) {
