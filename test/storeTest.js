@@ -99,6 +99,13 @@ describe ('Store', function() {
         expect(found[1].name).to.equal("underscore.js");
       });
     });
+
+    it('returns an empty array if no dependent packages', function() {
+      var lib = { name: "underscore.js", dependencies: null };
+      return store.getDependentPackages(lib).then(function(res) {
+        expect(res.length).to.eql(0);
+      });
+    });
   });
 
 });
