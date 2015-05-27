@@ -2,14 +2,14 @@
 // http://api.cdnjs.com/libraries?search=jquery&fields=version,description,assets,dependencies
 
 // Lib
-var colog   = require('colog');
-var Q       = require('q');
-global.rl      = require('readline-sync');
-var crawler = require('./lib/libcrawler');
-var dl      = require('./lib/libdownloader');
+var colog  = require('colog');
+var Q      = require('q');
+var store  = require('./lib/store');
+var dl     = require('./lib/libdownloader');
+var prompt = require('./lib/prompt');
 
 
-var argument = /jquery/i;
+var argument = "underscore";
 
 /*
  * This is a helper function to prompt a user.
@@ -32,16 +32,19 @@ global.promptOptions = function(options) {
  * and the download.
  */
 function processRequest(lib) {
-  var libraries = crawler.grabDependencies(lib).concat(lib);
-  libraries.forEach( function(library) {
-    dl.download(library);
+  store.getDependentPackages(lib)
+  .then(function(dependentPackages) {
+    dl.download(lib);
+    dependentPackages.forEach( function(library) {
+      dl.download(library);
+    })
   })
 }
 
 /*
  * The main function
  */
-crawler.find(argument).then(function (results) {
+store.findCollection(argument).then(function (results) {
 
   // No matches
   if (results.length == 0) {
@@ -51,12 +54,17 @@ crawler.find(argument).then(function (results) {
   // Multiple matches
   else if (results.length > 1){
     // Log options
-    console.log("Found many packages! Which one do you want?");
-    ans = promptOptions(results.map(function(item) { return item.name }));
-    if (ans.match(/\w+/) && parseInt(ans) < results.length) {
+    colog.warning("Found many packages! Which one do you want?");
+    return prompt.options(results.map(function(item) { return item.name }))
+    .then(function(ans) {
       processRequest(results[ans]);
-    }
-  } else {
+    }).catch(colog.error);
+  }
+
+  // Single match
+  else {
     processRequest(results[0]);
   }
+}).catch(function(err) {
+  colog.error(err);
 });
