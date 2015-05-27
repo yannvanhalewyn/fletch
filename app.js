@@ -7,9 +7,14 @@ var Q      = require('q');
 var store  = require('./lib/store');
 var dl     = require('./lib/libdownloader');
 var prompt = require('./lib/prompt');
+var argv  = require('yargs').argv;
 
 
-var argument = "reacti";
+var argument = argv["_"][0];
+if (!argument) {
+  console.log("You must give me something!");
+  process.exit(0);
+}
 
 /*
  * This is a helper function to prompt a user.
