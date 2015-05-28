@@ -1,7 +1,12 @@
 {
   "name": "fletcher",
   "version": "0.0.0",
-  "description": "An app to pull down libraries WITH dependencies WITH multiple choise if multiple found",
+  "description": "Pull down cdnjs libraries and their dependencies with ease",
+  "engines" : {
+    "node" : "0.12.2"
+  },
+  "preferGlobal": "true",
+  "bin": "./app.js",
   "main": "app.js",
   "dependencies": {
     "colog": "^1.0.4",
@@ -26,9 +31,9 @@
   "keywords": [
     "pulldown",
     "cdnjs",
-    "libraries"
+    "libraries",
+    "javascript"
   ],
-  "author": "yannvanhalewyn",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/yannvanhalewyn/fletcher/issues"
