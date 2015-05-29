@@ -61,7 +61,6 @@ var app = {
 
     // Single match
     else app.processRequest(matches[0]);
-
   },
 
   /*
@@ -69,7 +68,6 @@ var app = {
    * checker and the download.
    */
   processRequest: function(lib) {
-    console.log("got in process request");
     colog.info("Will install " + lib.name);
     store.getDependentPackages(lib)
     .then(function(dependentPackages) {
