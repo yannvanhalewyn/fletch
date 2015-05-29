@@ -1,76 +1,88 @@
 #!/usr/bin/env node
-// http://api.cdnjs.com/libraries?search=jquery&fields=version,description,assets,dependencies
 
-// Lib
+// deps
 var colog  = require('colog');
 var Q      = require('q');
+var argv   = require('yargs').argv;
+// lib
 var store  = require('./lib/store');
 var dl     = require('./lib/libdownloader');
 var prompt = require('./lib/prompt');
-var argv  = require('yargs').argv;
 
+var app = {
 
-var argument = argv["_"][0];
-if (!argument) {
-  console.log("You must give me something!");
-  process.exit(0);
-}
+  /*
+   * Storing args as app.properties
+   */
+  parseArgs: function(argv) {
+    this.query     = argv._[0];
+    this.outputDir = argv.o || "";
+  },
 
-/*
- * This is a helper function to prompt a user.
- * It loops until the format matches, then passes
- * on the reply
- */
-global.promptOptions = function(options) {
-  for (var opt in options) {
-    console.log(opt + "\t" + options[opt]);
-  }
-  colog.info("Hit 'n' for nothing.");
-  do {
-    var ans = rl.prompt();
-  } while(!ans.match(/(^[0-9]+|n)/i));
-  return ans;
-}
+  /*
+   * The main code entrypoint
+   */
+  run: function(argv) {
 
-/*
- * This function finishes the process by launching the dependency checker
- * and the download.
- */
-function processRequest(lib) {
-  colog.info("Will install " + lib.name);
-  store.getDependentPackages(lib)
-  .then(function(dependentPackages) {
-    dl.download(lib);
-    dependentPackages.forEach( function(library) {
-      dl.download(library);
+    this.parseArgs(argv);
+    if (!this.query) {
+      console.log("You must give me something!");
+      return;
+    }
+
+    // The main call to the store
+    store.findMatching(this.query).then(function (results) {
+      app.parseMatches(results);
+    }).catch(function(err) {
+      colog.error(err);
+    });
+  },
+
+  /*
+   * This guy takes in an array of package objects. If empty, it prints
+   * out a message. If 1 packages, it executes the processRequest method
+   * on it. If mutltiple, it prompts the user to make a choice, and then
+   * execute process request on it.
+   */
+  parseMatches: function(matches) {
+
+    // No matches
+    if (matches.length == 0) console.log("No matches found");
+
+    // Multiple matches
+    else if (matches.length > 1){
+      // Log options
+      colog.warning("Found many packages! Which one do you want?");
+      var itemNames = matches.map(function(item) { return item.name });
+      return prompt.options(itemNames).then(function(ans) {
+        app.processRequest(matches[ans]);
+      }).catch(colog.error);
+    }
+
+    // Single match
+    else app.processRequest(matches[0]);
+
+  },
+
+  /*
+   * This function finishes the process by launching the dependency
+   * checker and the download.
+   */
+  processRequest: function(lib) {
+    console.log("got in process request");
+    colog.info("Will install " + lib.name);
+    store.getDependentPackages(lib)
+    .then(function(dependentPackages) {
+      dl.download(lib);
+      dependentPackages.forEach( function(library) {
+        dl.download(library);
+      })
     })
-  })
+  }
 }
 
-/*
- * The main function
- */
-store.findMatching(argument).then(function (results) {
+module.exports = app;
 
-  // No matches
-  if (results.length == 0) {
-    console.log("No matches found");
-  }
-
-  // Multiple matches
-  else if (results.length > 1){
-    // Log options
-    colog.warning("Found many packages! Which one do you want?");
-    return prompt.options(results.map(function(item) { return item.name }))
-    .then(function(ans) {
-      processRequest(results[ans]);
-    }).catch(colog.error);
-  }
-
-  // Single match
-  else {
-    processRequest(results[0]);
-  }
-}).catch(function(err) {
-  colog.error(err);
-});
+if (require.main == module) {
+  app.run(argv);
+}
