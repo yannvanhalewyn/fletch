@@ -125,6 +125,22 @@ describe('CLI', function() {
       prompt.options.restore();
     });
 
+    it('passes on the outputDir', function() {
+      app.run({_: ["jquery"], o: "lib/deps"});
+      // expect(dl.download.calledWith(dummyJquery)).to.be.true;
+      expect(dl.download.calledWith(dummyJquery, null, "lib/deps")).to.be.true;
+    });
+
+    it('passes on output dir on dependency dl dispatch', function() {
+      sinon.stub(prompt, "options").returns(Q(0));
+      sinon.stub(prompt, "YN").returns(Q(true));
+      app.run({_: ["ember"], o: "lib/deps"});
+      expect(dl.download.calledWith(dummyJquery, null, "lib/deps")).to.be.true;
+      expect(dl.download.calledWith(dummyUnderscore, null, "lib/deps")).to.be.true;
+      prompt.YN.restore();
+      prompt.options.restore();
+    })
+
   });
 
 });

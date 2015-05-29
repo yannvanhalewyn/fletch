@@ -71,9 +71,9 @@ var app = {
     colog.info("Will install " + lib.name);
     store.getDependentPackages(lib)
     .then(function(dependentPackages) {
-      dl.download(lib);
+      dl.download(lib, null, app.outputDir);
       dependentPackages.forEach( function(library) {
-        dl.download(library);
+        dl.download(library, null, app.outputDir);
       });
     })
   }
