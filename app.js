@@ -17,6 +17,7 @@ var app = {
   parseArgs: function(argv) {
     this.query     = argv._[0];
     this.outputDir = argv.o || "";
+    this.queryVersion = argv.v;
   },
 
   /*
@@ -32,10 +33,8 @@ var app = {
 
     // The main call to the store
     store.findMatching(this.query).then(function (results) {
-      app.parseMatches(results);
-    }).catch(function(err) {
-      colog.error(err);
-    });
+      this.parseMatches(results);
+    }.bind(this)).catch(colog.error);
   },
 
   /*
@@ -55,12 +54,12 @@ var app = {
       colog.warning("Found many packages! Which one do you want?");
       var itemNames = matches.map(function(item) { return item.name });
       return prompt.options(itemNames).then(function(ans) {
-        app.processRequest(matches[ans]);
-      }).catch(colog.error);
+        this.processRequest(matches[ans]);
+      }.bind(this)).catch(colog.error);
     }
 
     // Single match
-    else app.processRequest(matches[0]);
+    else this.processRequest(matches[0]);
   },
 
   /*
@@ -71,11 +70,11 @@ var app = {
     colog.info("Will install " + lib.name);
     store.getDependentPackages(lib)
     .then(function(dependentPackages) {
-      dl.download(lib, null, app.outputDir);
+      dl.download(lib, null, this.outputDir);
       dependentPackages.forEach( function(library) {
-        dl.download(library, null, app.outputDir);
-      });
-    })
+        dl.download(library, null, this.outputDir);
+      }.bind(this));
+    }.bind(this))
   }
 }
 
