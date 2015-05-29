@@ -15,9 +15,11 @@ var app = {
    * Storing args as app.properties
    */
   parseArgs: function(argv) {
-    this.query     = argv._[0];
-    this.outputDir = argv.o || "";
-    this.queryVersion = argv.v;
+    this.params = {
+      query: argv._[0],
+      destination: argv.o || "",
+      version: argv.v
+    }
   },
 
   /*
@@ -26,13 +28,13 @@ var app = {
   run: function(argv) {
 
     this.parseArgs(argv);
-    if (!this.query) {
+    if (!this.params.query) {
       console.log("You must give me something!");
       return;
     }
 
     // The main call to the store
-    store.findMatching(this.query).then(function (results) {
+    store.findMatching(this.params.query).then(function (results) {
       this.parseMatches(results);
     }.bind(this)).catch(colog.error);
   },
@@ -70,9 +72,9 @@ var app = {
     colog.info("Will install " + lib.name);
     store.getDependentPackages(lib)
     .then(function(dependentPackages) {
-      dl.download(lib, null, this.outputDir);
+      dl.download(lib, null, this.params.destination);
       dependentPackages.forEach( function(library) {
-        dl.download(library, null, this.outputDir);
+        dl.download(library, null, this.params.destination);
       }.bind(this));
     }.bind(this))
   }
