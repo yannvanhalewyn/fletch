@@ -74,7 +74,7 @@ var app = {
       dl.download(lib);
       dependentPackages.forEach( function(library) {
         dl.download(library);
-      })
+      });
     })
   }
 }
