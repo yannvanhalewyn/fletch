@@ -44,10 +44,14 @@ describe('CLI', function() {
 
   describe('dispatch to store', function() {
 
-    before(function() {
-      sinon.stub(prompt, "options", function(options) { return Q(0) });
-      sinon.stub(prompt, "YN", function(question) { return Q(false)});
-      sinon.stub(store, "getDependentPackages", function(){return Q([])});
+    beforeEach(function() {
+      sinon.stub(process, "nextTick").yields();
+      sinon.stub(store, "getDependentPackages").returns(Q([]));
+    });
+
+    afterEach(function() {
+      process.nextTick.restore();
+      store.getDependentPackages.restore();
     });
 
     it('asks store to find a match for query', function() {
@@ -55,19 +59,37 @@ describe('CLI', function() {
       expect(store.findMatching.calledWith("jquery")).to.be.true;
     });
 
-    it('prompts user when multiple found', function() {
+    it('asks store to check for dependencies', function() {
+      sinon.stub(prompt, "options").returns(Q(0));
       app.run({_: ["ember"]});
-      setTimeout(function() {
-        expect(prompt.options.called).to.be.true;
-      }, 0);
+      expect(store.getDependentPackages.called).to.be.true;
+      prompt.options.restore();
     });
 
-    it('asks store to check for dependencies', function() {
+  });
+
+  describe('prompt', function() {
+
+    beforeEach(function() {
+      sinon.stub(process, "nextTick").yields();
+      sinon.stub(prompt, "YN").returns(Q(false));
+      sinon.stub(prompt, "options").returns(Q(0));
+    });
+
+    afterEach(function() {
+      process.nextTick.restore();
+      prompt.options.restore();
+      prompt.YN.restore();
+    });
+
+    it('prompts user when multiple found', function() {
       app.run({_: ["ember"]});
-      console.log("Done");
-      setTimeout(function() {
-        expect(store.getDependentPackages.called).to.be.true;
-      }, 0);
+      expect(prompt.options.called).to.be.true;
+    });
+
+    it('prompts the user if he wants to install dependencies', function() {
+      app.run({_: ["ember"]});
+      expect(prompt.YN.calledWith("Would you like to install them?")).to.be.true;
     });
 
   });
