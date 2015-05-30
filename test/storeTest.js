@@ -87,7 +87,6 @@ describe ('Store', function() {
 
   describe ('.getDependentPackages()', function() {
 
-    // Need to make this work
     it('returns an array of dependent packages', function() {
       var lib = { name: "react-coffee",
                   dependencies: { react: "3.2.1", underscore: "2.1.1" } };
