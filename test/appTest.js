@@ -5,7 +5,7 @@ var Q         = require('q');
 var prompt    = require('../lib/prompt');
 var app       = require('../app');
 var store     = require('../lib/store');
-var dl        = require('../lib/libdownloader');
+var dl        = require('../lib/downloader');
 
 describe('CLI', function() {
 
