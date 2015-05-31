@@ -57,7 +57,7 @@ var app = {
       var itemNames = matches.map(function(item) { return item.name });
       return prompt.options(itemNames).then(function(ans) {
         this.processRequest(matches[ans]);
-      }.bind(this)).catch(colog.error);
+      }.bind(this)).catch(console.error);
     }
 
     // Single match
@@ -76,7 +76,7 @@ var app = {
       dependentPackages.forEach( function(dependency) {
         dl.download(dependency, dependency.version, this.params.destination);
       }.bind(this));
-    }.bind(this))
+    }.bind(this)).catch(console.error);
   }
 }
 
