@@ -139,6 +139,15 @@ describe ('Store', function() {
       });
     });
 
+    it('sets the packages version to the one specified by the dependency', function() {
+      var lib = { name: "react-coffee",
+        dependencies: { react: "3.2.1", underscore: "2.1.1" } };
+      return store.getDependentPackages(lib).then(function(res) {
+        expect(res[0].version).to.equal("3.2.1");
+        expect(res[1].version).to.equal("2.1.1");
+      });
+    })
+
   });
 
 });
