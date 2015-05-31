@@ -1,6 +1,9 @@
-var expect    = require('chai').expect;
-var sinon     = require('sinon');
 var Q         = require('q');
+var chai      = require('chai');
+var expect    = chai.expect;
+var sinon     = require('sinon');
+var sinonChai = require('sinon-chai');
+chai.use(sinonChai);
 
 var prompt    = require('../lib/prompt');
 var app       = require('../app');
@@ -58,13 +61,13 @@ describe('CLI', function() {
 
     it('asks store to find a match for query', function() {
       app.run({_: ["jquery"]});
-      expect(store.findMatching.calledWith("jquery")).to.be.true;
+      expect(store.findMatching).to.have.been.calledWith("jquery");
     });
 
     it('asks store to check for dependencies', function() {
       sinon.stub(prompt, "options").returns(Q(0));
       app.run({_: ["ember"]});
-      expect(store.getDependentPackages.called).to.be.true;
+      expect(store.getDependentPackages).to.have.been.called;
       prompt.options.restore();
     });
 
@@ -84,7 +87,7 @@ describe('CLI', function() {
 
     it('prompts user when multiple found', function() {
       app.run({_: ["ember"]});
-      expect(prompt.options.called).to.be.true;
+      expect(prompt.options).to.have.been.called;
     });
 
   });
@@ -92,44 +95,39 @@ describe('CLI', function() {
   describe('dispatch to downloader', function() {
 
     beforeEach(function() {
+      sinon.stub(prompt, "options").returns(Q(0));
+      sinon.stub(prompt, "YN").returns(Q(true));
       sinon.stub(dl, "download");
     });
 
     afterEach(function() {
       dl.download.restore();
+      prompt.YN.restore();
+      prompt.options.restore();
     });
 
     it('dispatches to downloader', function() {
       app.run({_: ["jquery"]});
-      expect(dl.download.calledWith(dummyJquery)).to.be.true;
-      expect(dl.download.calledOnce).to.be.true;
+      expect(dl.download).to.have.been.calledWith(dummyJquery);
+      expect(dl.download).to.have.been.calledOnce;
     });
 
     it('dispatches downloads for dependencies', function() {
-      sinon.stub(prompt, "options").returns(Q(0));
-      sinon.stub(prompt, "YN").returns(Q(true));
       app.run({_: ["ember"]});
-      expect(dl.download.calledWith(dummyJquery)).to.be.true;
-      expect(dl.download.calledWith(dummyUnderscore)).to.be.true;
-      prompt.YN.restore();
-      prompt.options.restore();
+      expect(dl.download).to.have.been.calledWith(dummyJquery);
+      expect(dl.download).to.have.been.calledWith(dummyUnderscore);
     });
 
     it('passes on the outputDir', function() {
       app.run({_: ["jquery"], o: "lib/deps"});
-      // expect(dl.download.calledWith(dummyJquery)).to.be.true;
-      expect(dl.download.calledWith(dummyJquery, null, "lib/deps")).to.be.true;
+      expect(dl.download).to.have.been.calledWith(dummyJquery, null, "lib/deps");
     });
 
     it('passes on output dir on dependency dl dispatch', function() {
-      sinon.stub(prompt, "options").returns(Q(0));
-      sinon.stub(prompt, "YN").returns(Q(true));
       app.run({_: ["ember"], o: "lib/deps"});
-      expect(dl.download.calledWith(dummyJquery, null, "lib/deps")).to.be.true;
-      expect(dl.download.calledWith(dummyUnderscore, null, "lib/deps")).to.be.true;
-      prompt.YN.restore();
-      prompt.options.restore();
-    })
+      expect(dl.download).to.have.been.calledWith(dummyJquery, null, "lib/deps");
+      expect(dl.download).to.have.been.calledWith(dummyUnderscore, null, "lib/deps");
+    });
 
   });
 
