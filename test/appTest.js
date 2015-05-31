@@ -12,11 +12,11 @@ var dl        = require('../lib/downloader');
 
 describe('CLI', function() {
 
-  var dummyJquery = {name: "jquery", version: "3.2.1"};
-  var dummyEmber = {name: "ember.js", version: "3.2.1",
-                    dependencies: {jquery: "1.2.3", underscore: "1.2.3"}};
-  var dummyEmberFire = {name: "emberFire", version: "1.2.2"};
-  var dummyUnderscore = {name: "underscore.js", version: "1.2.3"};
+  var dummyJquery = {name: "jquery", version: "4.4.4"};
+  var dummyEmber = {name: "ember.js", version: "3.3.3",
+                    dependencies: {jquery: "3.2.1", underscore: "1.2.3"}};
+  var dummyEmberFire = {name: "emberFire", version: "0.0.1"};
+  var dummyUnderscore = {name: "underscore.js", version: "2.2.2"};
 
   beforeEach(function() {
     sinon.stub(store, "findMatching", function(query) {
@@ -120,13 +120,24 @@ describe('CLI', function() {
 
     it('passes on the outputDir', function() {
       app.run({_: ["jquery"], o: "lib/deps"});
-      expect(dl.download).to.have.been.calledWith(dummyJquery, null, "lib/deps");
+      expect(dl.download).to.have.been.calledWith(dummyJquery, undefined, "lib/deps");
     });
 
     it('passes on output dir on dependency dl dispatch', function() {
       app.run({_: ["ember"], o: "lib/deps"});
-      expect(dl.download).to.have.been.calledWith(dummyJquery, null, "lib/deps");
-      expect(dl.download).to.have.been.calledWith(dummyUnderscore, null, "lib/deps");
+      expect(dl.download).to.have.been.calledWithMatch(dummyJquery, "", "lib/deps");
+      expect(dl.download).to.have.been.calledWithMatch(dummyUnderscore, "", "lib/deps");
+    });
+
+    it('passes on the version if any', function() {
+      app.run({_: ["jquery"], v: "1.2.3"});
+      expect(dl.download).to.have.been.calledWith(dummyJquery, "1.2.3");
+    });
+
+    it('passes on the correct versions of dependencies', function() {
+      app.run({_: ["ember"]});
+      expect(dl.download).to.have.been.calledWith(dummyUnderscore, "1.2.3");
+      expect(dl.download).to.have.been.calledWith(dummyJquery, "3.2.1");
     });
 
   });
