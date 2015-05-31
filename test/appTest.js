@@ -87,16 +87,6 @@ describe('CLI', function() {
       expect(prompt.options.called).to.be.true;
     });
 
-    it('prompts the user if he wants to install dependencies', function() {
-      app.run({_: ["ember"]});
-      expect(prompt.YN.calledWith("Would you like to install them?")).to.be.true;
-    });
-
-    it('doesn\'t prompt the user if no deps', function() {
-      app.run({_: ["jquery"]});
-      expect(prompt.YN.calledWith("Would you like to install them?")).to.be.false;
-    });
-
   });
 
   describe('dispatch to downloader', function() {

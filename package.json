@@ -2,8 +2,8 @@
   "name": "fletcher",
   "version": "1.0.0",
   "description": "Pull down cdnjs libraries and their dependencies with ease",
-  "engines" : {
-    "node" : "0.12.2"
+  "engines": {
+    "node": "0.12.2"
   },
   "preferGlobal": "true",
   "bin": "./app.js",
@@ -18,7 +18,8 @@
   "devDependencies": {
     "chai": "^2.3.0",
     "mock-stdin": "^0.3.0",
-    "sinon": "^1.14.1"
+    "sinon": "^1.14.1",
+    "sinon-chai": "^2.7.0"
   },
   "scripts": {
     "test": "mocha test/*Test.js",

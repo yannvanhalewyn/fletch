@@ -1,6 +1,6 @@
-var prompt = require('../lib/prompt');
+var prompt    = require('../lib/prompt');
 var mockInput = require('./helpers/mockInput')
-var expect = require('chai').expect;
+var expect    = require('chai').expect;
 
 describe('Prompt', function() {
 
