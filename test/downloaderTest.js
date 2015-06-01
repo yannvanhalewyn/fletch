@@ -7,19 +7,25 @@ var sinonChai = require('sinon-chai');
 var request   = require('request');
 var dl        = require('../lib/downloader');
 
-// Setup sinonChar
+// Setup sinonChai
 chai.use(sinonChai);
 var expect = chai.expect;
-
-// Setup file system stubs, httprequest stubs
-mock_fs();
-sinon.stub(request, "get").yields(null, null, 'someData');
 
 // Shut up colog
 colog.silent(true);
 
 
 describe ('downloader', function() {
+
+  // Setup file system stubs, httprequest stubs
+  beforeEach(function() {
+    mock_fs();
+    sinon.stub(request, "get").yields(null, null, 'someData');
+  });
+  afterEach(function() {
+    mock_fs.restore();
+    request.get.restore();
+  });
 
   var dummyLib = {
     name: "jquery",
@@ -30,6 +36,13 @@ describe ('downloader', function() {
         files: [
           { name: "file1-4.4.4.js" },
           { name: "file2-4.4.4.js" }
+        ]
+      },
+      {
+        version: "4.1.1",
+        files: [
+          { name: "js/file1-4.4.4.js" },
+          { name: "css/file2-4.4.4.js" }
         ]
       },
       {
@@ -73,9 +86,35 @@ describe ('downloader', function() {
         dl.download(dummyLib, "<4", "");
         expectCallToCDNJS("jquery", "3.3.3", "file1-3.3.3.js");
         expectCallToCDNJS("jquery", "3.3.3", "file2-3.3.3.js");
+      });
+
+      it("doesn't call when no matching versions", function() {
+        try { dl.download(dummyLib, "<3", ""); } catch(err) {}
+        expect(request.get).to.not.have.been.called;
+      });
+
+    }); // End of calls api.CDNJS
+
+    describe('writes files to disk', function() {
+
+      it('saves all files to disk', function() {
+        dl.download(dummyLib, undefined, "");
+        var expected = ["file1-4.4.4.js", "file2-4.4.4.js"];
+        expect(fs.readdirSync("")).to.eql(expected);
+      });
+
+      it('creates dirs if necessary', function() {
+        dl.download(dummyLib, "4.1.1", "");
+        var expected = ["css", "js"];
+        var expectedJS = ["file1-4.4.4.js"];
+        var expectedCSS = ["file2-4.4.4.js"];
+        expect(fs.readdirSync("")).to.eql(expected);
+        expect(fs.readdirSync("js")).to.eql(expectedJS);
+        expect(fs.readdirSync("css")).to.eql(expectedCSS);
       })
 
     });
 
   });
+
 });
