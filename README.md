@@ -63,5 +63,18 @@ Will, again, ask you to resolve any conflicts found when looking for dependent
 files.
 ![Dependency conflict](http://i.imgur.com/udIswUN.png)
 
+## Running tests
+
+If you want to run the tests, you need mocha installed. Please run
+
+`npm install -g mocha`
+
+Then you'll need to pulldown the devdependencies
+
+`npm install`
+
+Now running either `mocha` or `npm test` will run the test suite.
+
+
 
 

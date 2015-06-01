@@ -48,11 +48,8 @@ var app = {
   run: function(argv) {
 
     this.parseArgs(argv);
-    if (this.params.showHelp) {
+    if (this.params.showHelp || !this.params.query) {
       this.showHelp();
-      return;
-    } else if (!this.params.query) {
-      console.log("You must give me something!");
       return;
     }
 
