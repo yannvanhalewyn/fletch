@@ -37,6 +37,17 @@ describe('CLI', function() {
 
   describe('.parseArgs()', function() {
 
+    it('has the correct defaults', function() {
+      app.run({_: []});
+      var expected = {
+        query: undefined,
+        showHelp: false,
+        destination: "",
+        version: undefined
+      };
+      expect(app.params).to.eql(expected);
+    });
+
     it('stores the requested package name', function() {
       app.run({_: ["ember"]});
       expect(app.params.query).to.equal("ember");
@@ -50,6 +61,11 @@ describe('CLI', function() {
     it('stores the version', function() {
       app.run({_: [], v: "<=2.1.1"});
       expect(app.params.version).to.equal("<=2.1.1");
+    });
+
+    it('sets help flag to true', function() {
+      app.run({_: [], h: true});
+      expect(app.params.showHelp).to.be.true;
     })
 
     it('understands --output', function() {
@@ -60,6 +76,11 @@ describe('CLI', function() {
     it('understands --version', function() {
       app.run({_: [], version: "<=2.1.1"});
       expect(app.params.version).to.equal("<=2.1.1");
+    });
+
+    it('understands --help', function() {
+      app.run({_: [], help: true});
+      expect(app.params.showHelp).to.be.true;
     });
 
   });

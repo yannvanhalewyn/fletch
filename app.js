@@ -12,11 +12,30 @@ var prompt = require('./lib/prompt');
 var app = {
 
   /*
+   * Shows a help pane
+   */
+  showHelp: function(argv) {
+    console.log("fletcher <packageName> [options]");
+    console.log("\n");
+    console.log("Options:");
+    console.log("\n");
+    console.log("-o, --options\tSpecify the ouput directory.");
+    console.log("-v, --version\tSpecify a version (semver support)");
+    console.log("\n");
+    console.log("Example usage:");
+    console.log("\n");
+    console.log("fletcher jquery\t\t#Downloads latest version of jQuery");
+    console.log("fletcher jquery -o lib/deps\t#Downloads latest version of jQuery to the lib/deps/ directory");
+    console.log("fletcher jquery -v \"<2\"\t#Downloads a version of jQuery that's lower than 2.0.0");
+  },
+
+  /*
    * Storing args as app.properties
    */
   parseArgs: function(argv) {
     this.params = {
       query: argv._[0],
+      showHelp: argv.h || argv.help || false,
       destination: argv.o || argv.output || "",
       version: argv.v || argv.version
     }
