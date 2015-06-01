@@ -30,6 +30,7 @@ describe ('downloader', function() {
   var dummyLib = {
     name: "jquery",
     version: "4.4.4",
+    latest: "http://cdnjs.cloudflare.com/ajax/libs/jquery/4.4.4/file.js",
     assets: [
       {
         version: "4.4.4",
@@ -91,6 +92,14 @@ describe ('downloader', function() {
       it("doesn't call when no matching versions", function() {
         try { dl.download(dummyLib, "<3", ""); } catch(err) {}
         expect(request.get).to.not.have.been.called;
+      });
+
+      it("with 'latest' file when minimal option is given", function() {
+        dl.download(dummyLib, "", "", true);
+        var expectedUrl = "http://cdnjs.cloudflare.com/ajax/" +
+                          "libs/jquery/4.4.4/file.js"
+        expect(request.get).to.have.been.calledWith(expectedUrl);
+        expect(request.get).to.have.been.calledOnce;
       });
 
     }); // End of calls api.CDNJS
