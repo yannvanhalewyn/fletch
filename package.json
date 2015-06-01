@@ -18,6 +18,7 @@
   },
   "devDependencies": {
     "chai": "^2.3.0",
+    "mock-fs": "^2.7.0",
     "mock-stdin": "^0.3.0",
     "sinon": "^1.14.1",
     "sinon-chai": "^2.7.0"
