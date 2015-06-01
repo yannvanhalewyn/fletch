@@ -105,13 +105,24 @@ describe ('downloader', function() {
 
       it('creates dirs if necessary', function() {
         dl.download(dummyLib, "4.1.1", "");
+        expect(fs.readdirSync("")).to.eql(["css", "js"]);
+        expect(fs.readdirSync("js")).to.eql(["file1-4.4.4.js"]);
+        expect(fs.readdirSync("css")).to.eql(["file2-4.4.4.js"]);
+      });
+
+      it('creates all files in specified output dir', function() {
+        dl.download(dummyLib, undefined, "someDir");
+        expect(fs.readdirSync("")).to.eql(["someDir"]);
+        var expected = ["file1-4.4.4.js", "file2-4.4.4.js"];
+        expect(fs.readdirSync("someDir")).to.eql(expected);
+      });
+
+      it('creates all folders recursively', function() {
+        dl.download(dummyLib, "4.1.1", "someDir");
+        expect(fs.readdirSync("")).to.eql(["someDir"]);
         var expected = ["css", "js"];
-        var expectedJS = ["file1-4.4.4.js"];
-        var expectedCSS = ["file2-4.4.4.js"];
-        expect(fs.readdirSync("")).to.eql(expected);
-        expect(fs.readdirSync("js")).to.eql(expectedJS);
-        expect(fs.readdirSync("css")).to.eql(expectedCSS);
-      })
+        expect(fs.readdirSync("someDir")).to.eql(expected);
+      });
 
     });
 
