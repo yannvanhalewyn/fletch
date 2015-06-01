@@ -15,18 +15,19 @@ var app = {
    * Shows a help pane
    */
   showHelp: function(argv) {
-    console.log("fletcher <packageName> [options]");
-    console.log("\n");
+    console.log("Usage: fletcher <packageName> [options]");
+    console.log();
     console.log("Options:");
-    console.log("\n");
+    console.log();
     console.log("-o, --options\tSpecify the ouput directory.");
     console.log("-v, --version\tSpecify a version (semver support)");
-    console.log("\n");
+    console.log("-h, --help\tShow help page");
+    console.log();
     console.log("Example usage:");
-    console.log("\n");
-    console.log("fletcher jquery\t\t#Downloads latest version of jQuery");
+    console.log();
+    console.log("fletcher jquery\t\t\t#Downloads latest version of jQuery");
     console.log("fletcher jquery -o lib/deps\t#Downloads latest version of jQuery to the lib/deps/ directory");
-    console.log("fletcher jquery -v \"<2\"\t#Downloads a version of jQuery that's lower than 2.0.0");
+    console.log("fletcher jquery -v \"<2\"\t\t#Downloads a version of jQuery that's lower than 2.0.0");
   },
 
   /*
@@ -35,9 +36,9 @@ var app = {
   parseArgs: function(argv) {
     this.params = {
       query: argv._[0],
-      showHelp: argv.h || argv.help || false,
+      showHelp: argv.h    || argv.help   || false,
       destination: argv.o || argv.output || "",
-      version: argv.v || argv.version
+      version: argv.v     || argv.version
     }
   },
 
@@ -47,6 +48,10 @@ var app = {
   run: function(argv) {
 
     this.parseArgs(argv);
+    if (this.params.showHelp) {
+      this.showHelp();
+      return;
+    }
     if (!this.params.query) {
       console.log("You must give me something!");
       return;
