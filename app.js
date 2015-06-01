@@ -51,8 +51,7 @@ var app = {
     if (this.params.showHelp) {
       this.showHelp();
       return;
-    }
-    if (!this.params.query) {
+    } else if (!this.params.query) {
       console.log("You must give me something!");
       return;
     }

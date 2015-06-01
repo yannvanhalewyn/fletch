@@ -83,6 +83,12 @@ describe('CLI', function() {
       expect(app.params.showHelp).to.be.true;
     });
 
+    it('calls the help page', function() {
+      sinon.stub(app, "showHelp");
+      app.run({_: [], help: true});
+      expect(app.showHelp).to.have.been.called;
+    })
+
   });
 
   describe('dispatch to store', function() {
