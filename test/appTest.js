@@ -35,7 +35,7 @@ describe('CLI', function() {
     process.nextTick.restore();
   });
 
-  describe('arguments', function() {
+  describe('.parseArgs()', function() {
 
     it('stores the requested package name', function() {
       app.run({_: ["ember"]});
@@ -45,6 +45,21 @@ describe('CLI', function() {
     it('stores the output dir', function() {
       app.run({_: [], o: "lib/deps"});
       expect(app.params.destination).to.equal("lib/deps");
+    });
+
+    it('stores the version', function() {
+      app.run({_: [], v: "<=2.1.1"});
+      expect(app.params.version).to.equal("<=2.1.1");
+    })
+
+    it('understands --output', function() {
+      app.run({_: [], output: "lib/deps"});
+      expect(app.params.destination).to.equal("lib/deps");
+    });
+
+    it('understands --version', function() {
+      app.run({_: [], version: "<=2.1.1"});
+      expect(app.params.version).to.equal("<=2.1.1");
     });
 
   });

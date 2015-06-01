@@ -17,8 +17,8 @@ var app = {
   parseArgs: function(argv) {
     this.params = {
       query: argv._[0],
-      destination: argv.o || "",
-      version: argv.v
+      destination: argv.o || argv.output || "",
+      version: argv.v || argv.version
     }
   },
 
@@ -48,7 +48,7 @@ var app = {
   parseMatches: function(matches) {
 
     // No matches
-    if (matches.length == 0) console.log("No matches found");
+    if (matches.length == 0) console.log("No matches found for " + this.params.query);
 
     // Multiple matches
     else if (matches.length > 1){
