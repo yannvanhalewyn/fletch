@@ -31,6 +31,7 @@ fletch <packageName> [options]
     -v, --version	Specify a version (semver support)
     -h, --help		Show help page
     -s, --silent	Discrete output. Will only show prompts.
+    -m, --minimal	Download only the main file (e.g.: jquery.min.js)
 
 
 ### Examples
