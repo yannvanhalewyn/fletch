@@ -31,7 +31,7 @@ var app = {
   },
 
   /*
-   * Storing args as app.properties
+   * Storing args in app.params hash
    */
   parseArgs: function(argv) {
     this.params = {
