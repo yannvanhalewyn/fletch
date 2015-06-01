@@ -22,6 +22,7 @@ var app = {
     console.log("-o, --options\tSpecify the ouput directory.");
     console.log("-v, --version\tSpecify a version (semver support)");
     console.log("-h, --help\tShow help page");
+    console.log("-s, --silent\tDiscrete output. Will only show prompts.");
     console.log();
     console.log("Example usage:");
     console.log();
@@ -38,7 +39,8 @@ var app = {
       query: argv._[0],
       showHelp: argv.h    || argv.help   || false,
       destination: argv.o || argv.output || "",
-      version: argv.v     || argv.version
+      version: argv.v     || argv.version,
+      silent: argv.s      || argv.silent || false
     }
   },
 
@@ -52,6 +54,7 @@ var app = {
       this.showHelp();
       return;
     }
+    if (this.params.silent) colog.silent(true);
 
     // The main call to the store
     store.findMatching(this.params.query).then(function (results) {

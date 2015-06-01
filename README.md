@@ -30,6 +30,8 @@ fletch <packageName> [options]
     -o, --options	Specify the ouput directory.
     -v, --version	Specify a version (semver support)
     -h, --help		Show help page
+    -s, --silent	Discrete output. Will only show prompts.
+
 
 ### Examples
 ```

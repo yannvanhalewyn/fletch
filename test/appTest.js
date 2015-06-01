@@ -43,7 +43,8 @@ describe('CLI', function() {
         query: undefined,
         showHelp: false,
         destination: "",
-        version: undefined
+        version: undefined,
+        silent: false
       };
       expect(app.params).to.eql(expected);
     });
@@ -66,7 +67,12 @@ describe('CLI', function() {
     it('sets help flag to true', function() {
       app.run({_: [], h: true});
       expect(app.params.showHelp).to.be.true;
-    })
+    });
+
+    it('stores silent mode', function() {
+      app.run({_: [], s: true});
+      expect(app.params.silent).to.be.true;
+    });
 
     it('understands --output', function() {
       app.run({_: [], output: "lib/deps"});
@@ -83,11 +89,23 @@ describe('CLI', function() {
       expect(app.params.showHelp).to.be.true;
     });
 
+    it('understands --silent', function() {
+      app.run({_: [], silent: true});
+      expect(app.params.silent).to.be.true;
+    });
+
     it('calls the help page', function() {
       sinon.stub(app, "showHelp");
       app.run({_: [], help: true});
       expect(app.showHelp).to.have.been.called;
-    })
+    });
+
+    it('sets colog to silent mode', function() {
+      var colog = require('colog');
+      sinon.spy(colog, "silent");
+      app.run({_: ["jquery"], silent: true});
+      expect(colog.silent).to.have.been.calledWith(true);
+    });
 
   });
 
