@@ -20,7 +20,7 @@ describe ('downloader', function() {
   // Setup file system stubs, httprequest stubs
   beforeEach(function() {
     mock_fs();
-    sinon.stub(request, "get").yields(null, null, 'someData');
+    sinon.stub(request, "get").yields(null, {statusCode: 200}, 'someData');
   });
   afterEach(function() {
     mock_fs.restore();
@@ -132,6 +132,11 @@ describe ('downloader', function() {
         var expected = ["css", "js"];
         expect(fs.readdirSync("someDir")).to.eql(expected);
       });
+
+      it('saves the one file to disk when minimal is specified', function() {
+        dl.download(dummyLib, "4.1.1", "", true);
+        expect(fs.readdirSync("")).to.eql(["file.js"]);
+      })
 
     });
 
