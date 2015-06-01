@@ -37,6 +37,14 @@ describe('CLI', function() {
 
   describe('.parseArgs()', function() {
 
+    // Don't clutter stdout with help messages
+    before(function() {
+      sinon.stub(app, "showHelp");
+    });
+    after(function() {
+      app.showHelp.restore();
+    });
+
     it('has the correct defaults', function() {
       app.run({_: []});
       var expected = {
@@ -44,7 +52,8 @@ describe('CLI', function() {
         showHelp: false,
         destination: "",
         version: undefined,
-        silent: false
+        silent: false,
+        minimal: false
       };
       expect(app.params).to.eql(expected);
     });
@@ -54,22 +63,27 @@ describe('CLI', function() {
       expect(app.params.query).to.equal("ember");
     });
 
-    it('stores the output dir', function() {
+    it('stores -o as destination', function() {
       app.run({_: [], o: "lib/deps"});
       expect(app.params.destination).to.equal("lib/deps");
     });
 
-    it('stores the version', function() {
+    it('stores -v as version', function() {
       app.run({_: [], v: "<=2.1.1"});
       expect(app.params.version).to.equal("<=2.1.1");
     });
 
-    it('sets help flag to true', function() {
+    it('stores -m as minimal', function() {
+      app.run({_: [], m: true});
+      expect(app.params.minimal).to.be.true;
+    })
+
+    it('stores -h as showHelp', function() {
       app.run({_: [], h: true});
       expect(app.params.showHelp).to.be.true;
     });
 
-    it('stores silent mode', function() {
+    it('stores -s as silent', function() {
       app.run({_: [], s: true});
       expect(app.params.silent).to.be.true;
     });
@@ -94,8 +108,12 @@ describe('CLI', function() {
       expect(app.params.silent).to.be.true;
     });
 
+    it('understands --minimal', function() {
+      app.run({_: [], minimal: true});
+      expect(app.params.minimal).to.be.true;
+    });
+
     it('calls the help page', function() {
-      sinon.stub(app, "showHelp");
       app.run({_: [], help: true});
       expect(app.showHelp).to.have.been.called;
     });

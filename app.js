@@ -37,10 +37,11 @@ var app = {
   parseArgs: function(argv) {
     this.params = {
       query: argv._[0],
-      showHelp: argv.h    || argv.help   || false,
-      destination: argv.o || argv.output || "",
+      showHelp: argv.h    || argv.help    || false,
+      destination: argv.o || argv.output  || "",
       version: argv.v     || argv.version,
-      silent: argv.s      || argv.silent || false
+      silent: argv.s      || argv.silent  || false,
+      minimal: argv.m     || argv.minimal || false
     }
   },
 
