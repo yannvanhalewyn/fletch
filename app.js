@@ -56,7 +56,7 @@ var app = {
     // The main call to the store
     store.findMatching(this.params.query).then(function (results) {
       this.parseMatches(results);
-    }.bind(this)).catch(colog.error);
+    }.bind(this)).catch(console.error);
   },
 
   /*

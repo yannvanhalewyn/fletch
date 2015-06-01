@@ -8,7 +8,7 @@ Fletch is inspired by tools like
 experience and a way to download all the files linked to a package, including
 dependencies.
 
-![general screenshot](http://i.imgur.com/yu69NSV.png "Screenshot")
+![general screenshot](http://i.imgur.com/t5qlkVr.png "Screenshot")
 
 Installation
 ------------

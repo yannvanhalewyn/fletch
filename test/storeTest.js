@@ -68,7 +68,7 @@ describe ('Store', function() {
 
   });
 
-  describe('.findMatchin()', function() {
+  describe('.findMatching()', function() {
 
     it('returns only one library', function() {
       var promise = store.findMatching("react");
