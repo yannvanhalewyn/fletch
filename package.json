@@ -1,5 +1,5 @@
 {
-  "name": "fletcher",
+  "name": "fletch",
   "version": "1.0.0",
   "description": "Pull down cdnjs libraries and their dependencies with ease",
   "engines": {
@@ -28,7 +28,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yannvanhalewyn/fletcher.git"
+    "url": "https://github.com/yannvanhalewyn/fletch.git"
   },
   "keywords": [
     "pulldown",
@@ -38,8 +38,8 @@
   ],
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/yannvanhalewyn/fletcher/issues"
+    "url": "https://github.com/yannvanhalewyn/fletch/issues"
   },
-  "homepage": "https://github.com/yannvanhalewyn/fletcher",
+  "homepage": "https://github.com/yannvanhalewyn/fletch",
   "author": "Yann Vanhalewyn <yann.vanhalewyn@gmail.com>"
 }
