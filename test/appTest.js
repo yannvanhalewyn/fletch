@@ -218,6 +218,17 @@ describe('CLI', function() {
       expect(dl.download).to.have.been.calledWith(dummyJquery, "3.2.1");
     });
 
+    it('passes on true if minimal flag is set', function() {
+      app.run({_: ["jquery"], m: true});
+      expect(dl.download).to.have.been.calledWith(dummyJquery, undefined, "", true);
+    });
+
+    it('it passes on the minimal flag to deps downloads', function() {
+      app.run({_: ["ember"], m: true});
+      expect(dl.download).to.have.been.calledWith(dummyUnderscore, "1.2.3", "", true);
+      expect(dl.download).to.have.been.calledWith(dummyJquery, "3.2.1", "", true);
+    });
+
   });
 
 });

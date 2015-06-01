@@ -102,6 +102,14 @@ describe ('downloader', function() {
         expect(request.get).to.have.been.calledOnce;
       });
 
+      it("semver compatibly when minimal option is giving", function() {
+        dl.download(dummyLib, "<4", "", true);
+        var expectedUrl = "http://cdnjs.cloudflare.com/ajax/" +
+                          "libs/jquery/3.3.3/file.js"
+        expect(request.get).to.have.been.calledWith(expectedUrl);
+        expect(request.get).to.have.been.calledOnce;
+      });
+
     }); // End of calls api.CDNJS
 
     describe('writes files to disk', function() {
