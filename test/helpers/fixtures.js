@@ -2,7 +2,7 @@ module.exports.dummyJquery = function() {
   return {
     name: "jquery",
     version: "4.4.4",
-    latest: "http://cdnjs.cloudflare.com/ajax/libs/jquery/4.4.4/file.js",
+    latest: "http://cdnjs.cloudflare.com/ajax/libs/jquery/4.4.4/latest.js",
     assets: [
       {
         version: "4.4.4",

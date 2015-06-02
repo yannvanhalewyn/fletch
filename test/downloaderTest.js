@@ -68,7 +68,7 @@ describe ('downloader', function() {
       it("with 'latest' file when minimal option is given", function() {
         dl.download(dummyJquery, "", "", true);
         var expectedUrl = "http://cdnjs.cloudflare.com/ajax/" +
-                          "libs/jquery/4.4.4/file.js"
+                          "libs/jquery/4.4.4/latest.js"
         expect(request.get).to.have.been.calledWith(expectedUrl);
         expect(request.get).to.have.been.calledOnce;
       });
@@ -76,7 +76,7 @@ describe ('downloader', function() {
       it("semver compatibly when minimal option is giving", function() {
         dl.download(dummyJquery, "<4", "", true);
         var expectedUrl = "http://cdnjs.cloudflare.com/ajax/" +
-                          "libs/jquery/3.3.3/file.js"
+                          "libs/jquery/3.3.3/latest.js"
         expect(request.get).to.have.been.calledWith(expectedUrl);
         expect(request.get).to.have.been.calledOnce;
       });
@@ -114,7 +114,7 @@ describe ('downloader', function() {
 
       it('saves the one file to disk when minimal is specified', function() {
         dl.download(dummyJquery, "4.1.1", "", true);
-        expect(fs.readdirSync("")).to.eql(["file.js"]);
+        expect(fs.readdirSync("")).to.eql(["latest.js"]);
       })
 
     });
