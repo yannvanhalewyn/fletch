@@ -53,7 +53,8 @@ describe('CLI', function() {
         destination: "",
         version: undefined,
         silent: false,
-        minimal: false
+        minimal: false,
+        scriptTag: false
       };
       expect(app.params).to.eql(expected);
     });
@@ -88,6 +89,11 @@ describe('CLI', function() {
       expect(app.params.silent).to.be.true;
     });
 
+    it('stores -t as scriptTag', function() {
+      app.run({_: [], t: true});
+      expect(app.params.scriptTag).to.be.true;
+    });
+
     it('understands --output', function() {
       app.run({_: [], output: "lib/deps"});
       expect(app.params.destination).to.equal("lib/deps");
@@ -111,6 +117,11 @@ describe('CLI', function() {
     it('understands --minimal', function() {
       app.run({_: [], minimal: true});
       expect(app.params.minimal).to.be.true;
+    });
+
+    it('understands --tag', function() {
+      app.run({_: [], tag: true});
+      expect(app.params.scriptTag).to.be.true;
     });
 
     it('calls the help page', function() {

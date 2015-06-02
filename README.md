@@ -23,7 +23,7 @@ Usage
 -----
 
 ```
-fletch <packageName> [options]
+$ fletch <packageName> [options]
 ```
 
 ### Options
@@ -32,23 +32,29 @@ fletch <packageName> [options]
     -h, --help		Show help page
     -s, --silent	Discrete output. Will only show prompts.
     -m, --minimal	Download only the main file (e.g.: jquery.min.js)
+    -t, --tag		Prints out html script tags for every file
 
 
 ### Examples
 ```
-fletch jquery
+$ fletch jquery
 ```
 Downloads latest version of jQuery to current dir
 
 ```
-fletch jquery -o lib/deps
+$ fletch jquery -o lib/deps
 ```
 Downloads latest version of jQuery to the lib/deps/ directory
 
 ```
-fletch jquery -v "<2"
+$ fletch jquery -v "<2"
 ```
 Downloads a version of jQuery that's lower than 2.0.0
+
+```
+$ fletch jquery -t
+```
+Prints out a script tag for every file in the package
 
 ## Conflicts
 
@@ -70,10 +76,10 @@ files.
 
 If you want to run the tests, you need mocha installed. Please run
 
-`npm install -g mocha`
+`$ npm install -g mocha`
 
 Then you'll need to pulldown the devdependencies
 
-`npm install`
+`$ npm install`
 
 Now running either `mocha` or `npm test` will run the test suite.
