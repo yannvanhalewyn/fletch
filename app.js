@@ -44,7 +44,7 @@ var app = {
       version:     argv.v || argv.version,
       silent:      argv.s || argv.silent  || false,
       minimal:     argv.m || argv.minimal || false,
-      scriptTag:   argv.t || argv.tag     || false
+      printHTML:   argv.t || argv.tag     || false
     }
   },
 
@@ -92,11 +92,11 @@ var app = {
   },
 
   /*
-   * Processes a request for a lib. Spits out a html script tag or
+   * Processes a request for a lib. Spits out HTML tags or
    * launches the install process depending on app.params
    */
   _processRequest: function(lib) {
-    if (this.params.scriptTag) this._printTags(lib);
+    if (this.params.printHTML) this._printTags(lib);
     else this._install(lib);
   },
 
