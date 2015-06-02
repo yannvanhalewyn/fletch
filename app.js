@@ -25,12 +25,15 @@ var app = {
     console.log("-v, --version\tSpecify a version (semver support)");
     console.log("-h, --help\tShow help page");
     console.log("-s, --silent\tDiscrete output. Will only show prompts.");
+    console.log("-m, --minimal\tDownload only the main file (e.g.: jquery.min.js)");
+    console.log("-t, --tag\tPrints out html script/link tags instead of downloading");
     console.log();
     console.log("Example usage:");
     console.log();
-    console.log("fletch jquery\t\t\t#Downloads latest version of jQuery");
-    console.log("fletch jquery -o lib/deps\t#Downloads latest version of jQuery to the lib/deps/ directory");
-    console.log("fletch jquery -v \"<2\"\t\t#Downloads a version of jQuery that's lower than 2.0.0");
+    console.log("fletch jquery\t\t\t# Downloads latest version of jQuery");
+    console.log("fletch jquery -o lib/deps\t# Downloads latest version of jQuery to the lib/deps/ directory");
+    console.log("fletch jquery -v \"<2\"\t\t# Downloads a version of jQuery that's lower than 2.0.0");
+    console.log("fletch jquery -mt \"1.x\"\t\t# Prints out a jQuery.min.js script tag for the latest version of jQuery 1");
   },
 
   /*
