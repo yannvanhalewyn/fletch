@@ -40,14 +40,6 @@ sinon.stub(store, "_call", fakeRequest);
 
 describe ('Store', function() {
 
-  describe ('.buildUrl()', function() {
-
-    it('returns the correct cdnjs api url', function() {
-      var url = store._buildUrl("jquery");
-      expect(url).to.equal("http://api.cdnjs.com/libraries?search=jquery&fields=version,description,assets,dependencies");
-    });
-  });
-
   describe ('.findCollection()', function() {
 
     it('returns a promise for lib objects', function() {
