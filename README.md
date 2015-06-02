@@ -34,6 +34,8 @@ $ fletch <packageName> [options]
     -m, --minimal	Download only the main file (e.g.: jquery.min.js)
     -t, --tag		Prints out html script/link tags instead of downloading
 
+**NOTE** the --tag option will only print out tags for .js and .css files.
+
 
 ### Examples
 ```
@@ -89,6 +91,6 @@ Now running either `mocha` or `npm test` will run the test suite.
 
 ## Tips
 
-If you rocking vim as a text editor, try running `:r !fletch jquery -mt`, and
+If you're rocking vim as a text editor, try running `:r !fletch jquery -mt`, and
 you'll see a script tag for the latest version of jQuery appear under your
 cursor. Sweet huh?

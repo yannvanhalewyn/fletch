@@ -109,12 +109,12 @@ var app = {
       var fileName = lib.latest.split('/').slice(-1)[0];
       var version = extract.matchingVersion(lib, semVersion);
       var tag = link.HTML(lib.name, version, fileName);
-      console.log(tag);
+      if (tag) console.log(tag);
     } else {
       var asset = extract.asset(lib, semVersion);
       for (var i in asset.files) {
         var tag = link.HTML(lib.name, asset.version, asset.files[i].name);
-        console.log(tag);
+        if (tag) console.log(tag);
       }
     }
   },

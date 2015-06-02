@@ -16,7 +16,12 @@ describe('link', function() {
       var tag = link.HTML("bootstrap", "1.1.1", "bootstrap.min.css");
       expect(tag).to.equal('<link rel="stylesheet" href="//cdnjs.cloudflare' +
                            '.com/ajax/libs/bootstrap/1.1.1/bootstrap.min.css">');
-    })
+    });
+
+    it('returns nothing for files that aren\'t js of css', function() {
+      var tag = link.HTML("bootstrap", "1.1.1", "bootstrap.svg");
+      expect(tag).to.be.undefined;
+    });
 
   }); // End of .scriptTag();
 
