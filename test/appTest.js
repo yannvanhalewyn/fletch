@@ -1,22 +1,22 @@
+// Deps
 var Q         = require('q');
 var chai      = require('chai');
 var expect    = chai.expect;
 var sinon     = require('sinon');
 var sinonChai = require('sinon-chai');
 chai.use(sinonChai);
-
+// Lib
 var prompt    = require('../lib/prompt');
 var app       = require('../app');
 var store     = require('../lib/store');
 var dl        = require('../lib/downloader');
+//Fixtures
+var dummyJquery = require('./helpers/fixtures').dummyJquery();
+var dummyEmber = require('./helpers/fixtures').dummyEmber();
+var dummyEmberFire = require('./helpers/fixtures').dummyEmberFire();
+var dummyUnderscore = require('./helpers/fixtures').dummyUnderscore();
 
 describe('CLI', function() {
-
-  var dummyJquery = {name: "jquery", version: "4.4.4"};
-  var dummyEmber = {name: "ember.js", version: "3.3.3",
-                    dependencies: {jquery: "3.2.1", underscore: "1.2.3"}};
-  var dummyEmberFire = {name: "emberFire", version: "0.0.1"};
-  var dummyUnderscore = {name: "underscore.js", version: "2.2.2"};
 
   beforeEach(function() {
     sinon.stub(store, "findMatching", function(query) {
@@ -244,16 +244,24 @@ describe('CLI', function() {
 
   describe('--tag', function() {
 
-    before(function() {
+    beforeEach(function() {
       sinon.stub(dl, "download");
     });
-    after(function() {
+    afterEach(function() {
       dl.download.restore();
     });
 
     it("doesn't execute a download", function() {
       app.run({_: ["jquery"], t: true});
       expect(dl.download).to.not.have.been.called;
+    });
+
+    it("prints out script tags", function() {
+      sinon.spy(console, "log");
+      // app.run({_: ["jquery"], t: true});
+      // var tag = '<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>'
+      // expect(console.log).to.have.been.calledWith(tag);
+      console.log.restore();
     });
 
   });
