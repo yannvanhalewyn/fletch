@@ -240,6 +240,22 @@ describe('CLI', function() {
       expect(dl.download).to.have.been.calledWith(dummyJquery, "3.2.1", "", true);
     });
 
+  }); // End of dispatch to download
+
+  describe('--tag', function() {
+
+    before(function() {
+      sinon.stub(dl, "download");
+    });
+    after(function() {
+      dl.download.restore();
+    });
+
+    it("doesn't execute a download", function() {
+      app.run({_: ["jquery"], t: true});
+      expect(dl.download).to.not.have.been.called;
+    });
+
   });
 
 });

@@ -81,19 +81,29 @@ var app = {
       colog.warning("Found many packages! Which one do you want?");
       var itemNames = matches.map(function(item) { return item.name });
       return prompt.options(itemNames).then(function(ans) {
-        this.processRequest(matches[ans]);
+        this._processRequest(matches[ans]);
       }.bind(this)).catch(console.error);
     }
 
     // Single match
-    else this.processRequest(matches[0]);
+    else this._processRequest(matches[0]);
   },
+
+  /*
+   * Processes a request for a lib. Spits out a html script tag or
+   * launches the install process depending on app.params
+   */
+  _processRequest: function(lib) {
+    if (this.params.scriptTag) { }
+    else this._install(lib);
+  },
+
 
   /*
    * This function finishes the process by launching the dependency
    * checker and the download.
    */
-  processRequest: function(lib) {
+  _install: function(lib) {
     colog.info("Will install " + lib.name);
     store.getDependentPackages(lib)
     .then(function(dependentPackages) {
@@ -103,6 +113,7 @@ var app = {
       }.bind(this));
     }.bind(this)).catch(console.error);
   }
+
 }
 
 module.exports = app;
