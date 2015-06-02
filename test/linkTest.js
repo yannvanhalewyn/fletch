@@ -3,17 +3,21 @@ var expect = require('chai').expect;
 
 describe('link', function() {
 
-  var lib = {
-
-  }
-
   describe('.scriptTag()', function() {
-    it('gives the correct script tag', function() {
+
+    it('gives the correct script tag for js files', function() {
       var tag = link.HTML("jquery", "2.1.4", "jquery.min.js");
       expect(tag).to.equal('<script type="text/javascript" src="//' +
                            'cdnjs.cloudflare.com/ajax/libs/jquery/' +
                            '2.1.4/jquery.min.js"></script>');
     });
+
+    it('gives the correct script tag for css files', function() {
+      var tag = link.HTML("bootstrap", "1.1.1", "bootstrap.min.css");
+      expect(tag).to.equal('<link rel="stylesheet" href="//cdnjs.cloudflare' +
+                           '.com/ajax/libs/bootstrap/1.1.1/bootstrap.min.css">');
+    })
+
   }); // End of .scriptTag();
 
   describe('.file()', function() {
