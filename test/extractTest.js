@@ -34,4 +34,13 @@ describe('extract', function() {
     });
 
   });
+
+  describe('.nearestExistingVersion() returns the correct version', function() {
+
+    it('when perfect match', function() {
+      var version = extract.matchingVersion(dummyJquery, "4.4.4");
+      expect(version).to.eql("4.4.4");
+    });
+
+  });
 });

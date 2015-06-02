@@ -104,13 +104,14 @@ var app = {
    * Prints HTML script tags to stdout of all files in extract asset
    */
   _printTags: function(lib) {
-    var version = this.params.version || lib.version;
+    var semVersion = this.params.version || lib.version;
     if (this.params.minimal) {
       var fileName = lib.latest.split('/').slice(-1)[0];
-      var tag = link.HTML(lib.name, lib.version, fileName);
+      var version = extract.matchingVersion(lib, semVersion);
+      var tag = link.HTML(lib.name, version, fileName);
       console.log(tag);
     } else {
-      var asset = extract.asset(lib, version);
+      var asset = extract.asset(lib, semVersion);
       for (var i in asset.files) {
         var tag = link.HTML(lib.name, asset.version, asset.files[i].name);
         console.log(tag);

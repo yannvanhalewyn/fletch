@@ -244,34 +244,49 @@ describe('CLI', function() {
 
   describe('--tag', function() {
 
-    var genericTag = '<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/4.4.4/{{filename}}"></script>'
+
+    function expectTagPrintedFor(pkgName, version, filename) {
+      var genericTag = '<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/{{name}}/{{version}}/{{filename}}"></script>';
+      var tag = genericTag.replace("{{name}}", pkgName)
+                          .replace("{{version}}", version)
+                          .replace("{{filename}}", filename);
+      expect(console.log).to.have.been.calledWith(tag);
+    }
 
     beforeEach(function() {
-      sinon.stub(dl, "download");
       sinon.spy(console, "log");
     });
     afterEach(function() {
-      dl.download.restore();
       console.log.restore();
     });
 
     it("doesn't execute a download", function() {
+      sinon.stub(dl, "download");
       app.run({_: ["jquery"], t: true});
       expect(dl.download).to.not.have.been.called;
+      dl.download.restore();
     });
 
     it("prints out script tags", function() {
       app.run({_: ["jquery"], t: true});
-      var tag1 = genericTag.replace("{{filename}}", "file1-4.4.4.js");
-      var tag2 = genericTag.replace("{{filename}}", "file2-4.4.4.js");
-      expect(console.log).to.have.been.calledWith(tag1);
-      expect(console.log).to.have.been.calledWith(tag2);
+      expectTagPrintedFor("jquery", "4.4.4", "file1-4.4.4.js");
+      expectTagPrintedFor("jquery", "4.4.4", "file2-4.4.4.js");
     });
 
     it("spits out a single tag for the latest file with -m", function() {
       app.run({_: ["jquery"], t: true, m: true});
-      var tag = genericTag.replace("{{filename}}", "latest.js");
-      expect(console.log).to.have.been.calledWith(tag);
+      expectTagPrintedFor("jquery", "4.4.4", "latest.js");
+    });
+
+    it("spits out script tags with correct version", function() {
+      app.run({_: ["jquery"], t: true, v: "<4"});
+      expectTagPrintedFor("jquery", "3.3.3", "file1-3.3.3.js");
+      expectTagPrintedFor("jquery", "3.3.3", "file2-3.3.3.js");
+    });
+
+    it("spits out the correct versionned script tag with -m", function() {
+      app.run({_: ["jquery"], t: true, v: "<4", m: true});
+      expectTagPrintedFor("jquery", "3.3.3", "latest.js");
     });
 
   });
