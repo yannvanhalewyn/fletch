@@ -1,13 +1,15 @@
 #!/usr/bin/env node
 
 // deps
-var colog  = require('colog');
-var Q      = require('q');
-var argv   = require('yargs').argv;
+var colog   = require('colog');
+var Q       = require('q');
+var argv    = require('yargs').argv;
 // lib
-var store  = require('./lib/store');
-var dl     = require('./lib/downloader');
-var prompt = require('./lib/prompt');
+var store   = require('./lib/store');
+var dl      = require('./lib/downloader');
+var prompt  = require('./lib/prompt');
+var extract = require('./lib/helpers/extract');
+var link    = require('./lib/helpers/link');
 
 var app = {
 
@@ -94,10 +96,27 @@ var app = {
    * launches the install process depending on app.params
    */
   _processRequest: function(lib) {
-    if (this.params.scriptTag) { }
+    if (this.params.scriptTag) this._printTags(lib);
     else this._install(lib);
   },
 
+  /*
+   * Prints HTML script tags to stdout of all files in extract asset
+   */
+  _printTags: function(lib) {
+    var version = this.params.version || lib.version;
+    if (this.params.minimal) {
+      var fileName = lib.latest.split('/').slice(-1)[0];
+      var tag = link.HTML(lib.name, lib.version, fileName);
+      console.log(tag);
+    } else {
+      var asset = extract.asset(lib, version);
+      for (var i in asset.files) {
+        var tag = link.HTML(lib.name, asset.version, asset.files[i].name);
+        console.log(tag);
+      }
+    }
+  },
 
   /*
    * This function finishes the process by launching the dependency

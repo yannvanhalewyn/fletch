@@ -244,11 +244,15 @@ describe('CLI', function() {
 
   describe('--tag', function() {
 
+    var genericTag = '<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/4.4.4/{{filename}}"></script>'
+
     beforeEach(function() {
       sinon.stub(dl, "download");
+      sinon.spy(console, "log");
     });
     afterEach(function() {
       dl.download.restore();
+      console.log.restore();
     });
 
     it("doesn't execute a download", function() {
@@ -257,11 +261,17 @@ describe('CLI', function() {
     });
 
     it("prints out script tags", function() {
-      sinon.spy(console, "log");
-      // app.run({_: ["jquery"], t: true});
-      // var tag = '<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>'
-      // expect(console.log).to.have.been.calledWith(tag);
-      console.log.restore();
+      app.run({_: ["jquery"], t: true});
+      var tag1 = genericTag.replace("{{filename}}", "file1-4.4.4.js");
+      var tag2 = genericTag.replace("{{filename}}", "file2-4.4.4.js");
+      expect(console.log).to.have.been.calledWith(tag1);
+      expect(console.log).to.have.been.calledWith(tag2);
+    });
+
+    it("spits out a single tag for the latest file with -m", function() {
+      app.run({_: ["jquery"], t: true, m: true});
+      var tag = genericTag.replace("{{filename}}", "latest.js");
+      expect(console.log).to.have.been.calledWith(tag);
     });
 
   });
