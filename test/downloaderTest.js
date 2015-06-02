@@ -42,8 +42,8 @@ describe ('downloader', function() {
       {
         version: "4.1.1",
         files: [
-          { name: "js/file1-4.4.4.js" },
-          { name: "css/file2-4.4.4.js" }
+          { name: "js/file1-4.1.1.js" },
+          { name: "css/file2-4.1.1.js" }
         ]
       },
       {
@@ -123,8 +123,8 @@ describe ('downloader', function() {
       it('creates dirs if necessary', function() {
         dl.download(dummyLib, "4.1.1", "");
         expect(fs.readdirSync("")).to.eql(["css", "js"]);
-        expect(fs.readdirSync("js")).to.eql(["file1-4.4.4.js"]);
-        expect(fs.readdirSync("css")).to.eql(["file2-4.4.4.js"]);
+        expect(fs.readdirSync("js")).to.eql(["file1-4.1.1.js"]);
+        expect(fs.readdirSync("css")).to.eql(["file2-4.1.1.js"]);
       });
 
       it('creates all files in specified output dir', function() {
