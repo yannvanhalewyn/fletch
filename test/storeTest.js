@@ -121,10 +121,10 @@ describe ('Store', function() {
       });
     });
 
-    it('sets the packages version to the one specified by the dependency', function() {
+    it('sets the depVersion property to the one specified by the dependency', function() {
       return store.getDependentPackages(dummyEmber).then(function(res) {
-        expect(res[0].version).to.equal("3.2.1");
-        expect(res[1].version).to.equal("1.2.3");
+        expect(res[0].depVersion).to.equal("3.2.1");
+        expect(res[1].depVersion).to.equal("1.2.3");
       });
     })
 
