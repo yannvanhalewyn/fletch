@@ -27,12 +27,12 @@ $ fletch <packageName> [options]
 ```
 
 ### Options
-    -o, --options	Specify the ouput directory.
+    -o, --options	Specify the ouput directory
     -v, --version	Specify a version (semver support)
     -h, --help		Show help page
-    -s, --silent	Discrete output. Will only show prompts.
+    -s, --silent	Discrete output: will only show prompts
     -m, --minimal	Download only the main file (e.g.: jquery.min.js)
-    -t, --tag		Prints out html script tags for every file
+    -t, --tag		Prints out html script/link tags instead of downloading
 
 
 ### Examples
@@ -55,6 +55,9 @@ Downloads a version of jQuery that's lower than 2.0.0
 $ fletch jquery -t
 ```
 Prints out a script tag for every file in the package
+
+## Tags
+![Tags screenshot](http://i.imgur.com/WEXAeVu.png)
 
 ## Conflicts
 
@@ -83,3 +86,9 @@ Then you'll need to pulldown the devdependencies
 `$ npm install`
 
 Now running either `mocha` or `npm test` will run the test suite.
+
+## Tips
+
+If you rocking vim as a text editor, try running `:r !fletch jquery -mt`, and
+you'll see a script tag for the latest version of jQuery appear under your
+cursor. Sweet huh?
