@@ -1,6 +1,6 @@
 {
   "name": "fletch",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Pull down cdnjs libraries and their dependencies with ease",
   "engines": {
     "node": "0.12.x"
