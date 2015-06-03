@@ -33,6 +33,13 @@ describe('extract', function() {
       expect(fn).to.throw("Version not found");
     });
 
+    it('works with non semver compatible packages', function() {
+      var lib = {assets: [ {version: "100"}, {version: "95",
+        files: [{name: "file1"}, {name: "file2"}]}, {version: "88"}]};
+      var asset = extract.asset(lib, "95");
+      expect(asset).to.eql({version: "95", files: [{name: "file1"}, {name: "file2"}]});
+    });
+
   });
 
   describe('.nearestExistingVersion() returns the correct version', function() {
@@ -40,6 +47,12 @@ describe('extract', function() {
     it('when perfect match', function() {
       var version = extract.matchingVersion(dummyJquery, "4.4.4");
       expect(version).to.eql("4.4.4");
+    });
+
+    it('works with non semver compatible packages', function() {
+      var lib = {assets: [ {version: "100"}, {version: "95"}, {version: "88"}]};
+      var version = extract.matchingVersion(lib, "95");
+      expect(version).to.equal("95");
     });
 
   });
