@@ -1,6 +1,7 @@
 // deps
 var mock_fs     = require('mock-fs');
 var fs          = require('fs');
+var PassThrough = require('stream').PassThrough;
 var request     = require('request');
 var colog       = require('colog');
 var sinon       = require('sinon');
@@ -8,13 +9,8 @@ var chai        = require('chai');
 var expect      = chai.expect;
 var sinonChai   = require('sinon-chai');
 chai.use(sinonChai);
-// Lib
 var dl          = require('../lib/downloader');
-// Fixtures
 var dummyJquery = require('./helpers/fixtures').dummyJquery();
-
-// var EventEmitter = require('events').EventEmitter;
-var PassThrough = require('stream').PassThrough;
 
 // Shut up colog
 colog.silent(true);
@@ -24,7 +20,6 @@ describe('downloader', function() {
   // Setup file system stubs, httprequest stubs
   beforeEach(function() {
     mock_fs();
-    // sinon.stub(request, "get").yields(null, {statusCode: 200}, 'someData');
     this.responseStream = new PassThrough();
     this.responseStream.write('RESPONSE DATA');
     sinon.stub(request, "get").returns(this.responseStream);
@@ -130,6 +125,15 @@ describe('downloader', function() {
             dl.download(dummyJquery, "4.1.1", "", true);
             this.responseStream.emit('response', {statusCode: 200});
             expect(fs.readdirSync("")).to.eql(["latest.js"]);
+          });
+
+          it('sets the correct file content', function(done) {
+            dl.download(dummyJquery, "4.4.4", "");
+            this.responseStream.emit('response', {statusCode: 200});
+            process.nextTick(function(){
+              expect(fs.readFileSync("file1-4.4.4.js", 'utf8')).to.equal("RESPONSE DATA");
+              done();
+            });
           });
 
         }); // End of 200 OK
