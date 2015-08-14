@@ -10,10 +10,7 @@ describe('extract', function() {
       var asset = extract.asset(dummyJquery, "4.1.1");
       expect(asset).to.eql({
         version: "4.1.1",
-        files: [
-          { name: "js/file1-4.1.1.js" },
-          { name: "css/file2-4.1.1.js" }
-        ]
+        files: [ "js/file1-4.1.1.js", "css/file2-4.1.1.js" ]
       });
     });
 
@@ -21,10 +18,7 @@ describe('extract', function() {
       var asset = extract.asset(dummyJquery, "<4");
       expect(asset).to.eql({
         version: "3.3.3",
-        files: [
-          { name: "file1-3.3.3.js" },
-          { name: "file2-3.3.3.js" }
-        ]
+        files: [ "file1-3.3.3.js", "file2-3.3.3.js" ]
       });
     });
 

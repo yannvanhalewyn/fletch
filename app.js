@@ -116,7 +116,7 @@ var app = {
     } else {
       var asset = extract.asset(lib, semVersion);
       for (var i in asset.files) {
-        var tag = link.HTML(lib.name, asset.version, asset.files[i].name);
+        var tag = link.HTML(lib.name, asset.version, asset.files[i]);
         if (tag) console.log(tag);
       }
     }

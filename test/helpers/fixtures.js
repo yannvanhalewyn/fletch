@@ -6,24 +6,15 @@ module.exports.dummyJquery = function() {
     assets: [
       {
         version: "4.4.4",
-        files: [
-          { name: "file1-4.4.4.js" },
-          { name: "file2-4.4.4.js" }
-        ]
+        files: [ "file1-4.4.4.js", "file2-4.4.4.js" ]
       },
       {
         version: "4.1.1",
-        files: [
-          { name: "js/file1-4.1.1.js" },
-          { name: "css/file2-4.1.1.js" }
-        ]
+        files: [ "js/file1-4.1.1.js", "css/file2-4.1.1.js" ]
       },
       {
         version: "3.3.3",
-        files: [
-          { name: "file1-3.3.3.js" },
-          { name: "file2-3.3.3.js" }
-        ]
+        files: [ "file1-3.3.3.js", "file2-3.3.3.js" ]
       }
     ]
   }
@@ -37,19 +28,11 @@ module.exports.dummyUnderscore = function() {
     assets: [
       {
         version: "1.8.3",
-        files: [
-          { name: "underscore-min.js" },
-          { name: "underscore-min.map" },
-          { name: "underscore.js" }
-        ]
+        files: [ "underscore-min.js", "underscore-min.map", "underscore.js" ]
       },
       {
         version: "1.8.2",
-        files: [
-          { name: "underscore-min.js" },
-          { name: "underscore-min.map" },
-          { name: "underscore.js" }
-        ]
+        files: [ "underscore-min.js", "underscore-min.map", "underscore.js" ]
       }
     ]
   }
@@ -64,23 +47,23 @@ module.exports.dummyEmber = function() {
       {
         version: "1.13.0-beta.2",
         files: [
-          { name: "ember-template-compiler.js", },
-          { name: "ember-testing.js", },
-          { name: "ember.debug.js", },
-          { name: "ember.js", },
-          { name: "ember.min.js", },
-          { name: "ember.prod.js", }
+          "ember-template-compiler.js",,
+          "ember-testing.js",,
+          "ember.debug.js",,
+          "ember.js",,
+          "ember.min.js",,
+          "ember.prod.js",
         ]
       },
       {
         version: "1.13.0-beta.1",
         files: [
-          { name: "ember-template-compiler.js" },
-          { name: "ember-testing.js" },
-          { name: "ember.debug.js" },
-          { name: "ember.js" },
-          { name: "ember.min.js" },
-          { name: "ember.prod.js" }
+          "ember-template-compiler.js",
+          "ember-testing.js",
+          "ember.debug.js",
+          "ember.js",
+          "ember.min.js",
+          "ember.prod.js"
         ]
       }
     ]
@@ -95,10 +78,7 @@ module.exports.dummyEmberFire = function() {
     assets: [
       {
         version: "1.0.9",
-        files: [
-          { name: "emberfire.js" },
-          { name: "emberfire.min.js" }
-        ]
+        files: [ "emberfire.js", "emberfire.min.js" ]
       }
     ]
   }
